@@ -1,9 +1,9 @@
-%TFM Media movil con bucles for
-%Joaqu�n Ramos Garc�a
+%TKEO con cuantificación de los datos de las señales EMG
+%Joaquín Ramos García
 
 clear;
 clc;
-%Se pueden cambiar los valores de las variables en estas lineas de código tambien
+%Se pueden cambiar los valores de las variables en estas lineas de cÃ³digo tambien
 Participante = 8; % Del 1 al 16
 MUSCLE = "L_TA"; % L_BF,R_BF,L_TA,R_TA,L_GAL,R_GAL,L_VL,R_VL
 VELOC = "V3"; % V1,V15,V2,V25,V3,V35,V4
@@ -16,7 +16,7 @@ Sujeto = replace(Sujeto, "1", num2str(Participante));
 load(["Participant" + Participante + "/" + 'Raw_Data.mat']);
 
 
-% Seleccionamos los valores de la base de datos de acuerdo a los parámetros definidos
+% Seleccionamos los valores de la base de datos de acuerdo a los parÃ¡metros definidos
 eval("Senal_Musculo = [" + Sujeto + ".(VELOC).EMG{TRIAL, 2}.Time, " + Sujeto + ".(VELOC).EMG{TRIAL, 2}.(MUSCLE)];");
 % Senal_Musculo = [Subject1_raw.(VELOC).EMG{TRIAL, 2}.Time, Subject1_raw.(VELOC).EMG{TRIAL, 2}.(MUSCLE)];
 EMG = Senal_Musculo(:, 2);
@@ -34,15 +34,15 @@ Q_data = quantizer('Mode','fixed', 'RoundMode','ceil', 'OverflowMode','saturate'
 Q_suma = quantizer('Mode','fixed', 'RoundMode','ceil', 'OverflowMode','saturate', 'Format',[24+1 23]);
 Q_product = quantizer('Mode','fixed', 'RoundMode','ceil', 'OverflowMode','saturate', 'Format',[24+24 23+23]);
 Q_out = quantizer('Mode','fixed', 'RoundMode','ceil', 'OverflowMode','saturate', 'Format',[24+2 23]);
-%Cuantificaci�n de la normalizaci�n
+%Cuantificación de la normalización
 EMG_Q = [zeros(1,1); quantize(Q_data,EMG_Normalizada_ini)];
 EMG_Q_ini=quantize(Q_data,EMG_Normalizada_ini);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Implementaci�n del TKEO
+%Implementaciön del TKEO
 
 bit=6;
-N = 2^bit; % Tamaño de la ventan
+N = 2^bit; % TamaÃ±o de la ventan
 %Variables para el bucle for
 
 % Bucle for
@@ -65,11 +65,11 @@ end
 % %Error absoluto medio
 MAE= sum(abs(EMG_Normalizada_ini - EMG_Q_ini))/length(EMG_Normalizada_ini);
 
-% %Error cuadr�tico medio
+% %Error cuadrático medio
 RMSE = sqrt(sum((EMG_Normalizada_ini - EMG_Q_ini).^2)/length(EMG_Normalizada_ini));
 
-% %1) Datos normalizados de la se�al EMG
-% %Guardado de datos de la se�al EMG normalizados
+% %1) Datos normalizados de la señal EMG
+% %Guardado de datos de la señal EMG normalizados
 % data_q = EMG_Q_ini;
 % 
 % fidir= fopen ('Datain_TKEO_Q.dat', 'w+');
@@ -91,7 +91,7 @@ RMSE = sqrt(sum((EMG_Normalizada_ini - EMG_Q_ini).^2)/length(EMG_Normalizada_ini
 % end
 % fclose (fidhr);
 % %2) Datos de salida, EMG filtrada con la Media movil(normalizados)
-% %Guardado de datos de la se�al EMG cuantificada
+% %Guardado de datos de la señal EMG cuantificada
 % dataout = [zeros(1,1); EMG_TKEO];
 % 
 % fidir= fopen ('Dataout_TKEO_Q.dat', 'w+');
@@ -106,14 +106,14 @@ RMSE = sqrt(sum((EMG_Normalizada_ini - EMG_Q_ini).^2)/length(EMG_Normalizada_ini
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Representacion grafica de la señal EMG sacada de la base de datos
+%Representacion grafica de la seÃ±al EMG sacada de la base de datos
 close all;
 figure (1);
 hold on; % Comando para representar varias figuras en una misma ventana
-title('Se�al EMG');%Titulo de la gráfica
+title('Señal EMG');%Titulo de la grÃ¡fica
 xlabel('tiempo'); % titulo del eje x
 
-plot (Tiempo,EMG);%Graficar la señal EMG original
+plot (Tiempo,EMG);%Graficar la seÃ±al EMG original
 ylabel('EMG');
 legend('EMG original');
 
