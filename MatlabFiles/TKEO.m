@@ -1,9 +1,9 @@
-%TFM Media movil con bucles for
-%Joaqu�n Ramos Garc�a
+%Algoritmo TKEO para la detección de envolvente de sales EMG
+%Joaquín Ramos García
 
 clear;
 clc;
-%Se pueden cambiar los valores de las variables en estas lineas de código tambien
+%Se pueden cambiar los valores de las variables en estas lineas de cÃ³digo tambien
 Participante = 8; % Del 1 al 16
 MUSCLE = "L_TA"; % L_BF,R_BF,L_TA,R_TA,L_GAL,R_GAL,L_VL,R_VL
 VELOC = "V3"; % V1,V15,V2,V25,V3,V35,V4
@@ -16,7 +16,7 @@ Sujeto = replace(Sujeto, "1", num2str(Participante));
 load(["Participant" + Participante + "/" + 'Raw_Data.mat']);
 
 
-% Seleccionamos los valores de la base de datos de acuerdo a los parámetros definidos
+% Seleccionamos los valores de la base de datos de acuerdo a los parÃ¡metros definidos
 eval("Senal_Musculo = [" + Sujeto + ".(VELOC).EMG{TRIAL, 2}.Time, " + Sujeto + ".(VELOC).EMG{TRIAL, 2}.(MUSCLE)];");
 % Senal_Musculo = [Subject1_raw.(VELOC).EMG{TRIAL, 2}.Time, Subject1_raw.(VELOC).EMG{TRIAL, 2}.(MUSCLE)];
 EMG = Senal_Musculo(:, 2);
@@ -30,7 +30,7 @@ Valor_Max = max(EMG);
 EMG_Normalizada_ini=EMG/Valor_Max;
 EMG_Normalizada = [zeros(1,1); EMG_Normalizada_ini];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Implementaci�n del TKEO
+%Implementaciön del TKEO
 
 % Bucle for
 fin = length(EMG);
@@ -42,8 +42,8 @@ for k=1:1:fin-2
 end
 
 
-%1) Datos normalizados de la se�al EMG
-%Guardado de datos de la se�al EMG normalizados
+%1) Datos normalizados de la señal EMG
+%Guardado de datos de la señal EMG normalizados
 data_q = EMG_Normalizada_ini;
 
 fidir= fopen ('Datain_TKEO.dat', 'w+');
@@ -58,7 +58,7 @@ fclose (fidir);
 fclose (fidhr);
 
 %2) Datos de salida, EMG filtrada con la Media movil(normalizados)
-%Guardado de datos de la se�al EMG cuantificada
+%Guardado de datos de la señal EMG cuantificada
 dataout = EMG_TKEO;
 
 fidir= fopen ('Dataout_TKEO.dat', 'w+');
@@ -75,14 +75,14 @@ fclose (fidhr);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Representacion grafica de la señal EMG sacada de la base de datos
+%Representacion grafica de la seÃ±al EMG sacada de la base de datos
 close all;
 figure (1);
 hold on; % Comando para representar varias figuras en una misma ventana
-title('TKEO');%Titulo de la gr�fica
+title('TKEO');%Titulo de la gráfica
 xlabel('Tiempo'); % titulo del eje x
 ylabel('EMG');
-plot (Tiempo,EMG_Normalizada_ini,'g');%Graficar la se�al EMG original
+plot (Tiempo,EMG_Normalizada_ini,'g');%Graficar la señal EMG original
 plot (Tiempo,EMG_TKEO,'r');
 legend('EMG normalizada','EMG filtrada');
 hold off;
@@ -105,5 +105,5 @@ disp(data);
 figure;
 plot(data);
 title('Datos desde el archivo .dat');
-xlabel('�ndice');
+xlabel('Índice');
 ylabel('Valor');
